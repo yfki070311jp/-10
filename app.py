@@ -232,8 +232,8 @@ st.title("簡易レジ＆在庫管理アプリ")
 # --- サイドバー設定 ---
 st.sidebar.header("⚙️ システム・更新設定")
 st.sidebar.info("⚠️ 編集中（在庫管理タブなど）は自動更新をオフにしてください。入力内容がリセットされる場合があります。")
-# 改善2: デフォルトをFalse（オフ）にし、間隔を10秒に緩和
-enable_auto_refresh = st.sidebar.checkbox("10秒自動更新を有効にする（閲覧用）", value=False)
+# 10秒更新をデフォルトで有効(True)に変更
+enable_auto_refresh = st.sidebar.checkbox("10秒自動更新を有効にする（閲覧用）", value=True)
 if enable_auto_refresh:
     st_autorefresh(interval=10000, limit=None, key="realtime_sync_refresh")
 
@@ -600,7 +600,6 @@ with tab3:
                             t_match = term_inv_l['商品名'] == p_name
                             if t_match.any():
                                 t_idx = term_inv_l.index[t_match][0]
-                                # 改善1: 存在しない端末名の時の参照エラー（KeyError）を修正
                                 if p_term in term_inv_l.columns:
                                     term_inv_l.at[t_idx, p_term] = safe_int(term_inv_l.at[t_idx, p_term]) + p_qty
                                 else:
